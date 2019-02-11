@@ -1,0 +1,4 @@
+__pycache__/
+*.ini
+*.html
+.DS_Store
