@@ -412,6 +412,7 @@ def TWINE_Enc(P, RK):
 	for j in range(0, 8):
 		XBag[36][2 * j + 1] = sbox[XBag[36][2 * j] ^ RK36Bag[j]] ^ XBag[36][2 * j + 1]
 # line 8
+	print(XBag[36])
 	return concatenate4Bits(
 		XBag[36][0], XBag[36][1], XBag[36][2], XBag[36][3],
 		XBag[36][4], XBag[36][5], XBag[36][6], XBag[36][7], 
