@@ -122,15 +122,10 @@ def _decrypt(C, RK):
 		P = _append_4_bits(P, X_16[1][i])
 	return P
 
-class Twine():
-	def __init__(self, kl = 0x50):
-		self.kl = kl
 
-	def generate(self, kl = 0x50):
-		pass
+def parse_text(plaintext):
+	plaintext = plaintext.uncode('utf-8').hex()
+	#TODO:
+	pass
 
-	def encrypt(self, plaintext, key = None):
-		return 0x0
 
-	def decrypt(self, ciphertext, key = None):
-		return 0x0
