@@ -10,22 +10,33 @@ def main():
 	parser.add_argument('-g', help= 'Automatically generate ')
 
 	opt = parser.parse_args()
-	key = str(opt.k).encode('utf-8')
-	kl = len(key)
 
 	if opt.k is not None:
-		if kl != 0x14 and kl != 0x32:
+		if twine.check_key(opt.k) is not True:
+			print(opt.k, opt.p)
 			raise argparse.ArgumentTypeError('TWINE: the given key bit length is not supported')
+			print('----------------------------------')
 		if opt.p is not None:
-			# encrypt with the given key (80 or 128 bits)
+			RK = twine.generate_RK(opt.k)
+			cipher_blocks = twine.twine_enc(opt.p, RK)
+			print('cipher blocks: {0}'.format(cipher_blocks))
+			print('encryption key: {0}'.format(opt.k))
 			return
-		if opt.c is not None:
-			# decrypt with the given key (80 or 128 bits)
+		if opt.c is not None and len(opt.c) > 0:
+			RK = twine.generate_RK(opt.k)
+			plaintext = twine.twine_dec(opt.c, RK)
+			print('plain text: {0}'.format(plaintext))
+			print('decryption key: {0}'.format(opt.k))
 			return
 		raise argparse.ArgumentTypeError('please provide either of the plaintext/ciphertext to proceed with the encryption/decryption process')
 	else:
 		if opt.p is None:
 			raise argparse.ArgumentTypeError('please provide the plaintext to proceed with the encryption process')
+		key = twine.generate_key(int(opt.z))
+		RK = twine.generate_RK(key)
+		cipher_blocks = twine.twine_enc(opt.p, RK)
+		print('cipher blocks: {0}'.format(cipher_blocks))
+		print('encryption key: {0}'.format(key))
 		# encrypt with a generated key (80 or 128 bits)
 
 if __name__ == '__main__':

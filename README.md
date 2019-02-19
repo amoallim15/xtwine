@@ -8,21 +8,41 @@ Simply clone this repository via
 	git clone https://github.com/AXJ15/TWINE.git
 
 ## Example
-To ecnrypt a plaintext sample using a 80 bits size key, run the following command
+To ecnrypt a plaintext sample using a 80 bits size key, run the following commands:
 
-	python ./twine -p '0123456789ABCDEF' -k '00112233445566778899'
+### Example 1
 
-The outputs:
+	python ./proc.py -p "hello world" -k "<o8~I{?3Uz"
 
-	ciphertext: 7c1f0f80b1df9c28
-	encryption key: 00112233445566778899
-	key length: 80 bits
-	encryption time: 0.01s
+The output:
 
-to be continued.. 
+	cipher blocks: ['abb90d4c0a8f6763', '2cec7c01ee409ea1']
+	encryption key: <o8~I{?3Uz
+
+### Example 2
+
+	python ./proc.py -p "1 plus 1 equals 2"
+
+The output:
+
+	cipher blocks: ['315a70682ac625c', 'dced6a7ff834d629', 'c2b70de4e2d1fc7b']
+	encryption key: 8_D]H[!^M*
+
+### Example 3
+
+	python ./proc.py -p "1 plus 1 equals 2" -z 128
+
+The output:
+
+	cipher blocks: ['7f9c4394decc4c59', 'c94be30b49db5ef6', '6943a2938416382f']
+	encryption key: oti,D:H6[5WX|8jS
 
 ## Dependencies
 - Python 3
+
+## Contributors
+
+[Ali Moallim](mailto:axj.159@gmail.com)
 
 ## License
 This code is licensed under [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html).

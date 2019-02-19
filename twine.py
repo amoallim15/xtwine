@@ -1,5 +1,7 @@
+
+import random, string, binascii
 from collections import defaultdict as ddict
-from os import urandom as rnd
+from math import ceil
 
 sbox = {
 	0x0: 0xC, 0x1: 0x0, 0x2: 0xF, 0x3: 0xA, 
@@ -8,14 +10,14 @@ sbox = {
 	0xC: 0x1, 0xD: 0xE, 0xE: 0x6, 0xF: 0x4
 }
 
-permutationENC = { 
+permutation_enc = { 
 	0x0: 0x5, 0x1: 0x0, 0x2: 0x1, 0x3: 0x4, 
 	0x4: 0x7, 0x5: 0xC, 0x6: 0x3, 0x7: 0x8, 
 	0x8: 0xD, 0x9: 0x6, 0xA: 0x9, 0xB: 0x2, 
 	0xC: 0xF, 0xD: 0xA, 0xE: 0xB, 0xF: 0xE
 }
 
-permutationDEC = { 
+permutation_dec = { 
 	0x0: 0x1, 0x1: 0x2, 0x2: 0xB, 0x3: 0x6, 
 	0x4: 0x3, 0x5: 0x0, 0x6: 0x9, 0x7: 0x4, 
 	0x8: 0x7, 0x9: 0xA, 0xA: 0xD, 0xB: 0xE, 
@@ -100,7 +102,7 @@ def _encrypt(P, RK):
 		for j in range(0, 8):
 			X_16[i][2 * j + 1] = _S(X_16[i][2 * j] ^ RK_32[i][j]) ^ X_16[i][2 * j + 1]
 		for h in range(0, 16):
-			X_16[i + 1][permutationENC[h]] = X_16[i][h]
+			X_16[i + 1][permutation_enc[h]] = X_16[i][h]
 	for j in range(0, 8):
 		X_16[36][2 * j + 1] = _S(X_16[36][2 * j] ^ RK_32[36][j]) ^ X_16[36][2 * j + 1]
 	for i in range(16):
@@ -115,17 +117,52 @@ def _decrypt(C, RK):
 		for j in range(0, 8):
 			X_16[i][2 * j + 1] = _S(X_16[i][2 * j] ^ RK_32[i][j]) ^ X_16[i][2 * j + 1]
 		for h in range(0, 16):
-			X_16[i - 1][permutationDEC[h]] = X_16[i][h]
+			X_16[i - 1][permutation_dec[h]] = X_16[i][h]
 	for j in range(0, 8):
 		X_16[1][2 * j + 1] = _S(X_16[1][2 * j] ^ RK_32[1][j]) ^ X_16[1][2 * j + 1]
 	for i in range(16):
 		P = _append_4_bits(P, X_16[1][i])
 	return P
 
+def generate_key(kl = 0x50):
+	space = ''.join([string.ascii_lowercase, string.ascii_uppercase, string.digits, string.punctuation])
+	if kl == 0x50:
+		return ''.join(random.choice(space) for i in range(0x0A))
+	elif kl == 0x80:
+		return ''.join(random.choice(space) for i in range(0x10))
+	else:
+		raise('TWINE: The given key bit length ({0} bits) is not supported'.format(kl))
 
-def parse_text(plaintext):
-	plaintext = plaintext.uncode('utf-8').hex()
-	#TODO:
-	pass
+def check_key(key):
+	kl = len(str(key).encode('utf-8'))
+	if kl != 0x0A and kl != 0x10:
+		return False
+	return True
 
+def parse_block(plaintext):
+	hextext = plaintext.encode('utf-8').hex()
+	for i in range(int(ceil(len(hextext) / 16))):
+		if i * 16 + 16 > len(hextext):
+			yield hextext[i * 16: len(hextext)]
+		else:
+			yield hextext[i * 16: i * 16 + 16]
 
+def generate_RK(key, kl = 0x50):
+	if kl == 0x50:
+		return _key_schedule_80(int(key.encode('utf-8').hex(), 16))
+	else:
+		return _key_schedule_128(int(key.encode('utf-8').hex(), 16))
+
+def twine_enc(plaintext, RK):
+	_c = []
+	for block in parse_block(plaintext):
+		cblock = hex(_encrypt(int(block, 16), RK))[2:]
+		_c.append(cblock)
+	return _c
+
+def twine_dec(cipherblocks, RK):
+	_t = ''
+	for block in cipherblocks:
+		tblock = binascii.unhexlify(hex(_decrypt(int(block, 16), RK))[2:]).decode('utf-8')
+		_t = _t + tblock
+	return _t
