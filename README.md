@@ -7,8 +7,8 @@ Simply clone this repository via
 
 	git clone https://github.com/AXJ15/TWINE.git
 
-## Example
-To ecnrypt a plaintext sample using a 80 bits size key, run the following commands:
+## Usage
+This repository contains a command line tool that can be used to ecnrypt plaintext samples using either of the supported 80 bits or 128 bits sized keys.
 
 ### Example 1
 

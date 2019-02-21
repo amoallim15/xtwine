@@ -133,18 +133,18 @@ def generate_key(kl = 0x50):
 	else:
 		raise Exception('TWINE: The given key bit length ({0} bits) is not supported'.format(kl))
 
-def check_key(key):
-	kl = len(str(key).encode('utf-8'))
-	if kl != 0x0A and kl != 0x10:
-		return False
-	return True
-
-def parse_block(blocks):
+def _parse_blocks(blocks):
 	for i in range(int(ceil(len(blocks) / 16))):
 		if i * 16 + 16 > len(blocks):
 			yield blocks[i * 16: len(blocks)]
 		else:
 			yield blocks[i * 16: i * 16 + 16]
+
+def check_key(key):
+	kl = len(str(key).encode('utf-8'))
+	if kl != 0x0A and kl != 0x10:
+		return False
+	return True
 
 def generate_RK(key, kl = 0x50):
 	if kl == 0x50:
@@ -155,7 +155,7 @@ def generate_RK(key, kl = 0x50):
 def twine_enc(plaintext, RK):
 	_c = ''
 	hextext = plaintext.encode('utf-8').hex()
-	for block in parse_block(hextext):
+	for block in _parse_blocks(hextext):
 		cblock = hex(_encrypt(int(block, 16), RK))[2:]
 		cblock = '0' * (16 - len(cblock)) + cblock 
 		_c = _c + cblock
@@ -163,7 +163,8 @@ def twine_enc(plaintext, RK):
 
 def twine_dec(cipherblocks, RK):
 	_t = ''
-	for block in parse_block(cipherblocks):
+	for block in _parse_blocks(cipherblocks):
+		print(_decrypt(int(block, 16), RK))
 		tblock = binascii.unhexlify(hex(_decrypt(int(block, 16), RK))[2:]).decode('utf-8')
 		_t = _t + tblock
 	return _t
