@@ -14,7 +14,7 @@ def main():
 	if opt.k is not None:
 		if twine.check_key(opt.k) is not True:
 			print(opt.k, opt.p)
-			raise argparse.ArgumentTypeError('TWINE: the given key bit length is not supported')
+			raise Exception('TWINE: the given key bit length is not supported')
 			print('----------------------------------')
 		if opt.p is not None:
 			RK = twine.generate_RK(opt.k)
@@ -28,10 +28,10 @@ def main():
 			print('plain text: {0}'.format(plaintext))
 			print('decryption key: {0}'.format(opt.k))
 			return
-		raise argparse.ArgumentTypeError('please provide either of the plaintext/ciphertext to proceed with the encryption/decryption process')
+		raise Exception('please provide either of the plaintext/ciphertext to proceed with the encryption/decryption process')
 	else:
 		if opt.p is None:
-			raise argparse.ArgumentTypeError('please provide the plaintext to proceed with the encryption process')
+			raise Exception('please provide the plaintext to proceed with the encryption process')
 		key = twine.generate_key(int(opt.z))
 		RK = twine.generate_RK(key)
 		cipher_blocks = twine.twine_enc(opt.p, RK)

@@ -131,7 +131,7 @@ def generate_key(kl = 0x50):
 	elif kl == 0x80:
 		return ''.join(random.choice(space) for i in range(0x10))
 	else:
-		raise('TWINE: The given key bit length ({0} bits) is not supported'.format(kl))
+		raise Exception('TWINE: The given key bit length ({0} bits) is not supported'.format(kl))
 
 def check_key(key):
 	kl = len(str(key).encode('utf-8'))
