@@ -16,25 +16,34 @@ To ecnrypt a plaintext sample using a 80 bits size key, run the following comman
 
 The output:
 
-	cipher blocks: ['abb90d4c0a8f6763', '2cec7c01ee409ea1']
+	cipher blocks: abb90d4c0a8f67632cec7c01ee409ea1
 	encryption key: <o8~I{?3Uz
 
 ### Example 2
+
+	python ./proc.py -c "01bbed92bccc2104b7e12141f1413ad6" -k "4ejqxfDL3#"
+
+The output:
+
+	plain text: hello world
+	decryption key: 4ejqxfDL3#
+
+### Example 3
 
 	python ./proc.py -p "1 plus 1 equals 2"
 
 The output:
 
-	cipher blocks: ['315a70682ac625c', 'dced6a7ff834d629', 'c2b70de4e2d1fc7b']
+	cipher blocks: 0315a70682ac625cdced6a7ff834d629c2b70de4e2d1fc7b
 	encryption key: 8_D]H[!^M*
 
-### Example 3
+### Example 4
 
 	python ./proc.py -p "1 plus 1 equals 2" -z 128
 
 The output:
 
-	cipher blocks: ['7f9c4394decc4c59', 'c94be30b49db5ef6', '6943a2938416382f']
+	cipher blocks: 7f9c4394decc4c59c94be30b49db5ef66943a2938416382f
 	encryption key: oti,D:H6[5WX|8jS
 
 ## Dependencies

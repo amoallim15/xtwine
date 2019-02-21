@@ -139,13 +139,12 @@ def check_key(key):
 		return False
 	return True
 
-def parse_block(plaintext):
-	hextext = plaintext.encode('utf-8').hex()
-	for i in range(int(ceil(len(hextext) / 16))):
-		if i * 16 + 16 > len(hextext):
-			yield hextext[i * 16: len(hextext)]
+def parse_block(blocks):
+	for i in range(int(ceil(len(blocks) / 16))):
+		if i * 16 + 16 > len(blocks):
+			yield blocks[i * 16: len(blocks)]
 		else:
-			yield hextext[i * 16: i * 16 + 16]
+			yield blocks[i * 16: i * 16 + 16]
 
 def generate_RK(key, kl = 0x50):
 	if kl == 0x50:
@@ -154,15 +153,17 @@ def generate_RK(key, kl = 0x50):
 		return _key_schedule_128(int(key.encode('utf-8').hex(), 16))
 
 def twine_enc(plaintext, RK):
-	_c = []
-	for block in parse_block(plaintext):
+	_c = ''
+	hextext = plaintext.encode('utf-8').hex()
+	for block in parse_block(hextext):
 		cblock = hex(_encrypt(int(block, 16), RK))[2:]
-		_c.append(cblock)
+		cblock = '0' * (16 - len(cblock)) + cblock 
+		_c = _c + cblock
 	return _c
 
 def twine_dec(cipherblocks, RK):
 	_t = ''
-	for block in cipherblocks:
+	for block in parse_block(cipherblocks):
 		tblock = binascii.unhexlify(hex(_decrypt(int(block, 16), RK))[2:]).decode('utf-8')
 		_t = _t + tblock
 	return _t
