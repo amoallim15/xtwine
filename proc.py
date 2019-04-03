@@ -3,7 +3,7 @@ import twine
 
 def main():
 	parser = argparse.ArgumentParser(description= 'Encrypt/Decrypt Using TWINE Block Cipher')
-	parser.add_argument('-p', help= 'Theplaintext to be encrypted')
+	parser.add_argument('-p', help= 'The plaintext to be encrypted')
 	parser.add_argument('-c', help= 'The ciphertext to be decrypted')
 	parser.add_argument('-z', default= 0x50, help= 'Encryption/Decryption bit size (80 or 128) bits')
 	parser.add_argument('-k', help= 'Encryption/Decryption secret key')
