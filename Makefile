@@ -2,8 +2,7 @@ DEAFULT_GOAL = help
 VENV := venv
 
 help:
-	@echo "help"
-	# TO DO: description
+	@echo "TODO: help info"
 
 # PYTHON COMMANDS
 #######################################################################
@@ -18,16 +17,19 @@ format:
 	@black . --exclude './$(VENV)'
 
 build:
-	python3 setup.py sdist bdist_wheel
+	@python3 setup.py sdist bdist_wheel
 
 install: build
 	@pip3 install dist/*.whl
 
 clean:
 	@rm -rf build; \
-	rm -rf dist; \
-	rm -rf */*.egg-info; \
-	rm -rf *.egg-info; \
-	find . -type f -name "*.py[co]" -delete; \
-	find . -type d -name "__pycache__" -delete; \
-	python3 setup.py clean --all
+		rm -rf dist; \
+		rm -rf */*.egg-info; \
+		rm -rf *.egg-info; \
+		find . -type f -name "*.py[co]" -delete; \
+		find . -type d -name "__pycache__" -delete; \
+		python3 setup.py clean --all
+
+push:
+	@twine upload dist/*
