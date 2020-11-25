@@ -35,7 +35,7 @@ abb90d4c0a8f67632cec7c01ee409ea1
 **Example 2**:
 
 ```sh
-xtwine "01bbed92bccc2104b7e12141f1413ad6" -k "4ejqxfDL3#"
+xtwine "01bbed92bccc2104b7e12141f1413ad6" -d -k "4ejqxfDL3#"
 ```
 
 The output:
@@ -67,7 +67,7 @@ xtwine "1 plus 1 equals 2" -z 128
 The output:
 
 ```
-encryption key: "oti,D:H6[5WX|8jS"
+Encryption Key: "oti,D:H6[5WX|8jS"
 7f9c4394decc4c59c94be30b49db5ef66943a2938416382f
 ```
 
@@ -79,8 +79,10 @@ encryption key: "oti,D:H6[5WX|8jS"
     twine = Twine(key_size=0x50)
     # If the key param is not specified
     # it will generate a key automatically.
-    ciphertext = twine.encrypt("Hello Word")
-    print(cipertext) # > "abb90d4c0a8f67632cec7c01ee409ea1"
+    ciphertext = twine.encrypt("hello world")
+    print(ciphertext) # > "abb90d4c0a8f67632cec7c01ee409ea1"
+    plaintext = twine.decrypt(ciphertext)
+    print(plaintext) # > "hello world"
 ```
 
 ## Release History
