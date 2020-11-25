@@ -22,7 +22,7 @@ This repository contains a command line tool that can be used to ecnrypt plainte
 **Example 1**:
 
 ```sh
-python3 twine "hello world" -k "<o8~I{?3Uz"
+xtwine "hello world" -k "<o8~I{?3Uz"
 ```
 
 The output:
@@ -35,7 +35,7 @@ abb90d4c0a8f67632cec7c01ee409ea1
 **Example 2**:
 
 ```sh
-python3 twine "01bbed92bccc2104b7e12141f1413ad6" -k "4ejqxfDL3#"
+xtwine "01bbed92bccc2104b7e12141f1413ad6" -k "4ejqxfDL3#"
 ```
 
 The output:
@@ -48,7 +48,7 @@ hello world
 **Example 3**:
 
 ```sh
-python3 twine "1 plus 1 equals 2"
+xtwine "1 plus 1 equals 2"
 ```
 
 The output:
@@ -61,7 +61,7 @@ Encryption Key: "8_D]H[!^M*"
 **Example 4**:
 
 ```sh
-python3 twine "1 plus 1 equals 2" -z 128
+xtwine "1 plus 1 equals 2" -z 128
 ```
 
 The output:
@@ -74,7 +74,7 @@ encryption key: "oti,D:H6[5WX|8jS"
 **Example 5**:
 
 ```py
-    from twine import Twine
+    from xtwine import Twine
 
     twine = Twine(key_size=0x50)
     # If the key param is not specified
