@@ -16,6 +16,7 @@ class Twine:
     ]
 
     def __init__(self, key=None, key_size=0x50):
+        key_size = int(key_size, 0)
         if key_size not in [0x50, 0x80]:
             raise ValueError(
                 f"the given key bit length of: {key_size} is not supported"
