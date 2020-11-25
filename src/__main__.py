@@ -42,11 +42,11 @@ def main():
     output = ""
     twine = Twine(key=args.k, key_size=args.z)
 
-    print(vars(twine))
-
     if args.decrypt:
+        print(f'Decryption Key: "{twine.key}"', flush=True)
         output = twine.decrypt(input)
     else:
+        print(f'Encryption Key: "{twine.key}"', flush=True)
         output = twine.encrypt(input)
 
     args.output_file.write(output)

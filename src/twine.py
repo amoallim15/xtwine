@@ -10,7 +10,7 @@ class Twine:
         string.ascii_lowercase,
         string.ascii_uppercase,
         string.digits,
-        string.punctuation,
+        # string.punctuation,
     ]
 
     def __init__(self, key=None, key_size=0x50):
@@ -51,7 +51,7 @@ class Twine:
             return _key_schedule_128(int(self.key.encode("utf-8").hex(), 16))
 
     def iterblocks(self, blocks):
-        for i in range(int(ceil(len(blocks) / 16))):
+        for i in range(ceil(len(blocks) / 16)):
             if i * 16 + 16 > len(blocks):
                 yield blocks[i * 16 : len(blocks)]
             else:
@@ -62,9 +62,7 @@ class Twine:
         plaintext = plaintext.encode("utf-8").hex()
         RK = self.__generate_RK()
         for block in self.iterblocks(plaintext):
-            print(block)
             cblock = hex(_encrypt(int(block, 16), RK))[2:]
-            cblock = "0" * (16 - len(cblock)) + cblock
             _c += cblock
         return _c
 
@@ -72,7 +70,6 @@ class Twine:
         _t = ""
         RK = self.__generate_RK()
         for block in self.iterblocks(ciphertext):
-            print(block)
             tblock = binascii.unhexlify(hex(_decrypt(int(block, 16), RK))[2:]).decode(
                 "utf-8"
             )
