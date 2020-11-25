@@ -7,13 +7,13 @@ This repository is an implementation of [TWINE: A Lightweight Block Cipher for M
 Install by pip from PyPI:
 
 ```sh
-pip3 install twine
+pip3 install xtwine
 ```
 
 Or install latest version from github:
 
 ```sh
-python3 -m pip install -U git+https://github.com/amoallim15/TWINE.git
+python3 -m pip install -U git+https://github.com/amoallim15/xtwine.git
 ```
 
 ## Usage
