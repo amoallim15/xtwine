@@ -87,6 +87,9 @@ Encryption Key: "oti,D:H6[5WX|8jS"
 
 ## Release History
 
+* 1.0.2
+    * hotfix: from xtwine import Twine
+
 * 1.0.1
     * read/write from/to stdin/stdout.
 
@@ -96,7 +99,7 @@ Encryption Key: "oti,D:H6[5WX|8jS"
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/amoallim15/base-emoji.
+Bug reports and pull requests are welcome on GitHub at https://github.com/amoallim15/xtwine.
 I'm also available for questions, feel free to get in touch.
 
 ## License

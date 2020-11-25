@@ -27,6 +27,7 @@ clean:
 		rm -rf dist; \
 		rm -rf */*.egg-info; \
 		rm -rf *.egg-info; \
+		rm -rf ./$(VENV)
 		find . -type f -name "*.py[co]" -delete; \
 		find . -type d -name "__pycache__" -delete; \
 		python3 setup.py clean --all

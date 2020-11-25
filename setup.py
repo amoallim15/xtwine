@@ -18,7 +18,7 @@ setup(
     author="Ali Moallim",
     author_email="amoallim15@gmail.com",
     keywords="twine cipher encryption decryption",
-    entry_points={"console_scripts": ["xtwine = src.__main__:main"]},
+    entry_points={"console_scripts": ["xtwine = xtwine.cli:main"]},
     license="MIT",
     platforms=["all"],
     classifiers=[

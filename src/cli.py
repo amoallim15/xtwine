@@ -1,7 +1,7 @@
 import argparse
 import sys
-from src.twine import Twine
-from src._version import __version__
+from .twine import Twine
+from ._version import __version__
 
 
 def main():
@@ -50,7 +50,3 @@ def main():
         output = twine.encrypt(input)
 
     args.output_file.write(output)
-
-
-if __name__ == "__main__":
-    main()
