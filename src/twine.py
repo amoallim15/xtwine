@@ -4,6 +4,8 @@ import binascii
 from math import ceil
 from src.algo import _key_schedule_80, _key_schedule_128, _encrypt, _decrypt
 
+__all__ = ["Twine"]
+
 
 class Twine:
     key_space = [
@@ -20,9 +22,9 @@ class Twine:
             )
 
         if not key:
-            key = self.generate_key(key_size)
+            key = self.__generate_key(key_size)
 
-        if self.is_key_valid(key):
+        if self.__is_key_valid(key):
             self.key = key
         else:
             raise ValueError(f"The given key: {key} is not valid")
@@ -31,13 +33,13 @@ class Twine:
     def key_size(self):
         return len(str(self.key).encode("utf-8"))
 
-    def is_key_valid(self, key):
+    def __is_key_valid(self, key):
         kl = len(str(key).encode("utf-8"))
         if kl != 0x0A and kl != 0x10:
             return False
         return True
 
-    def generate_key(self, key_size):
+    def __generate_key(self, key_size):
         space = "".join(self.key_space)
         if key_size == 0x50:
             return "".join(random.choice(space) for i in range(0x0A))
@@ -50,7 +52,7 @@ class Twine:
         else:
             return _key_schedule_128(int(self.key.encode("utf-8").hex(), 16))
 
-    def iterblocks(self, blocks):
+    def __iterblocks(self, blocks):
         for i in range(ceil(len(blocks) / 16)):
             if i * 16 + 16 > len(blocks):
                 yield blocks[i * 16 : len(blocks)]
@@ -61,7 +63,7 @@ class Twine:
         _c = ""
         plaintext = plaintext.encode("utf-8").hex()
         RK = self.__generate_RK()
-        for block in self.iterblocks(plaintext):
+        for block in self.__iterblocks(plaintext):
             cblock = hex(_encrypt(int(block, 16), RK))[2:]
             _c += cblock
         return _c
@@ -69,7 +71,7 @@ class Twine:
     def decrypt(self, ciphertext):
         _t = ""
         RK = self.__generate_RK()
-        for block in self.iterblocks(ciphertext):
+        for block in self.__iterblocks(ciphertext):
             tblock = binascii.unhexlify(hex(_decrypt(int(block, 16), RK))[2:]).decode(
                 "utf-8"
             )
