@@ -74,15 +74,15 @@ Encryption Key: "oti,D:H6[5WX|8jS"
 **Example 5**:
 
 ```py
-    from xtwine import Twine
+from xtwine import Twine
 
-    twine = Twine(key_size=0x50)
-    # If the key param is not specified
-    # it will generate a key automatically.
-    ciphertext = twine.encrypt("hello world")
-    print(ciphertext) # > "abb90d4c0a8f67632cec7c01ee409ea1"
-    plaintext = twine.decrypt(ciphertext)
-    print(plaintext) # > "hello world"
+twine = Twine(key_size=0x50)
+# If the key param is not specified
+# it will generate a key automatically.
+ciphertext = twine.encrypt("hello world")
+print(ciphertext) # > "abb90d4c0a8f67632cec7c01ee409ea1"
+plaintext = twine.decrypt(ciphertext)
+print(plaintext) # > "hello world"
 ```
 
 ## Release History
